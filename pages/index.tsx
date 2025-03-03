@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { motion } from "framer-motion";
 
 const chapters = [
   { id: "bab1", title: "BAB 1 - Pendahuluan" },
@@ -10,6 +11,7 @@ const chapters = [
 
 export default function SkripsiOnline() {
   const [activeChapter, setActiveChapter] = useState(chapters[0].id);
+  const chapterRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
 
   useEffect(() => {
     const handleScroll = () => {
@@ -45,13 +47,18 @@ export default function SkripsiOnline() {
       {/* Konten Skripsi */}
       <div className="max-w-3xl mx-auto mt-24 p-4 space-y-20">
         {chapters.map((chapter) => (
-          <div key={chapter.id} id={chapter.id} className="min-h-screen">
+          <motion.div
+            key={chapter.id}
+            initial={{ scale: 0.9, opacity: 0 }}
+            whileInView={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: false, amount: 0.2 }}
+          >
             <h2 className="text-2xl font-bold mb-4">{chapter.title}</h2>
             <p className="text-gray-700">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-              {/* Tambahkan lebih banyak teks agar halaman panjang */}
             </p>
-          </div>
+          </motion.div>
         ))}
       </div>
     </div>
